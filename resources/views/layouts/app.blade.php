@@ -10,6 +10,11 @@
 <body>
     @include('layouts.header')
 
+    @if (session('message'))
+        <div class="alert alert-secondary">
+            {{ session('message') }}
+        </div>
+    @endif
     <main class="py-4">
         @yield('content')
     </main>
