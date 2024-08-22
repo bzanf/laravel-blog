@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->longText('content');
             $table->tinyInteger('status')->default(0);
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
