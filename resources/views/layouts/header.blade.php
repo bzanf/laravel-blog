@@ -24,11 +24,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('post.index') }}">Home</a>
                     </li>
-                    @if (auth()->check() && auth()->user()->role === 'admin')
+                    @can('viewAny', auth()?->user())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('user.index') }}">Usuários</a>
                         </li>
-                    @endif
+                    @endcan
                     @auth
                         <form id="logout-form" action="{{ route('logout') }}" method="POST">
                             @csrf

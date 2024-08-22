@@ -5,7 +5,6 @@
                 {{ $post->status === 0 ? '(Rascunho)' : '' }} {{ $post->title }}
             </h4>
 
-            {{-- @if (auth()->check() && (auth()->user()->id === $post->user_id || auth()->user()->role === 'admin')) --}}
             @can('update', $post)
                 <div class="dropdown">
                     <button 
@@ -35,7 +34,6 @@
                     </ul>
                 </div>
             @endcan
-            {{-- @endif --}}
         </div>
         
         <span class="text-muted">
