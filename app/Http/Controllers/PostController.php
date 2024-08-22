@@ -14,6 +14,8 @@ class PostController extends Controller
     {
         $posts = Post::with('user')
             ->where('status', 1)
+            ->orWhere('user_id', request()->user()?->id)
+            ->orWhere(request()->user()?->role, 'admin')
             ->orderBy('created_at', 'desc')->paginate(12);
         return view("post.index", ["posts" => $posts]);
     }
@@ -23,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view("post.create");
     }
 
     /**
@@ -31,7 +33,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            "title" => ["required", "string"],
+            "content" => ["required", "string"],
+        ]);
+
+        $data['user_id'] = $request->user()->id;
+        $post = Post::create($data);
+
+        return to_route('post.show', $post)->with('message', 'Post criado com sucesso!');
     }
 
     /**
@@ -39,7 +49,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        $data = Post::with('comments')->where('id', $post->id)->first();
+        return view('post.show', ['post' => $data]);
     }
 
     /**
@@ -47,7 +58,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $this->authorize('update', $post);
+
+        return view("post.edit", ["post" => $post]);
     }
 
     /**
@@ -55,7 +68,16 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $this->authorize('update', $post);
+
+        $data = $request->validate([
+            "title" => ["required", "string"],
+            "content" => ["required", "string"],
+            "status" => ["required", "integer"],
+        ]);
+
+        $post->update($data);
+        return to_route('post.show', $post)->with('message', 'Post atualizado com sucesso!');
     }
 
     /**
@@ -63,6 +85,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $this->authorize('delete', $post);
+
+        $post->delete();
+        return to_route('post.index')->with('message', 'Post removido com sucesso!');
     }
 }
