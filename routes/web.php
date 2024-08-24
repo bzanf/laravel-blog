@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/post')->name('dashboard');
+Route::redirect('/home', '/post')->name('home');
 
 Auth::routes();
 
