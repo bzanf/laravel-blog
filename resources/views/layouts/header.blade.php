@@ -16,11 +16,6 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('post.create') }}">Novo post</a>
-                        </li>
-                    @endauth
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('post.index') }}">Home</a>
                     </li>
@@ -30,6 +25,9 @@
                         </li>
                     @endcan
                     @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('post.create') }}">Novo post</a>
+                        </li>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST">
                             @csrf
                             <li class="nav-item">
