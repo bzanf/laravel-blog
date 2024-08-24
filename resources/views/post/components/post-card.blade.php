@@ -36,9 +36,12 @@
             @endcan
         </div>
         
-        <span class="text-muted">
-            {{ $post->created_at->setTimezone('America/Sao_Paulo')->format('d/m/Y H:i') }} - {{ $post->user->name }}
-        </span>
+        <div class="text-muted">
+            <i class="bi bi-clock"></i>
+            <span>{{ $post->created_at->setTimezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</span>
+            <i class="bi bi-person ms-2"></i>
+            <span>{{ $post->user->name }}</span>
+        </div>
         <p 
             class="card-text mt-2 mb-0 text-ellipsis overflow-hidden"
             style="{{ !$fullContent ? 'max-height: 200px' : '' }}"
